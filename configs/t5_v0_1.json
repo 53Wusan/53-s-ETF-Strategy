@@ -1,0 +1,54 @@
+{
+  "strategy_id": "t5_v0_1",
+  "status": "research_baseline",
+  "frozen_on": "2026-07-18",
+  "description": "Reconstructed T5_15D2P_60I1 core without an idealized hard stop.",
+  "universe": [
+    "159516",
+    "513120",
+    "159206",
+    "562500",
+    "515880",
+    "561380"
+  ],
+  "market_indices": [
+    "上证指数",
+    "深证成指",
+    "创业板指",
+    "科创50"
+  ],
+  "signal": {
+    "momentum_window": 15,
+    "top_k": 2,
+    "replacement_buffer": 0.02,
+    "market_gate_window": 60,
+    "minimum_positive_indices": 1,
+    "weighting": "equal"
+  },
+  "strict_execution": {
+    "signal_time": "close_t",
+    "execution_time": "open_t_plus_1",
+    "one_way_transaction_cost": 0.001,
+    "stop_mode": "none"
+  },
+  "baseline_window": {
+    "start": "2023-09-01",
+    "end": "2026-07-08",
+    "timezone": "Asia/Shanghai"
+  },
+  "baseline_metrics": {
+    "ending_equity": 3.229495,
+    "cagr": 0.538257,
+    "max_drawdown": -0.212736,
+    "sharpe": 1.415662,
+    "calmar": 2.530171,
+    "trade_days_per_year": 31.959184,
+    "average_exposure": 0.6793
+  },
+  "known_limitations": [
+    "Six-ETF universe was reconstructed ex post from screenshots.",
+    "Backtest window is shorter than three full years.",
+    "Theme and technology exposure is highly concentrated.",
+    "This configuration is a research baseline, not a live-trading authorization."
+  ]
+}
