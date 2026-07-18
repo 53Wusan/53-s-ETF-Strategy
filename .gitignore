@@ -1,9 +1,14 @@
 .venv/
 __pycache__/
 *.pyc
+*.egg-info/
 .ipynb_checkpoints/
 data/cache/
 .env
 .env.*
 secrets/
 credentials/
+data/private/
+outputs/private/
+outputs/v0_2_invalid_*/
+**/personal_trades.*

@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "money-back"
+version = "0.2.0"
+description = "Auditable ETF strategy research and daily signal generation."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "Jinja2==3.1.6",
+  "matplotlib==3.11.1",
+  "nbclient==0.11.0",
+  "nbformat==5.10.4",
+  "numpy==2.5.1",
+  "pandas==3.0.3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.0.2"]
+web = ["streamlit>=1.45,<2"]
+
+[project.scripts]
+money-back = "money_back.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+markers = [
+  "regression: frozen V0.1 regression checks",
+]
+

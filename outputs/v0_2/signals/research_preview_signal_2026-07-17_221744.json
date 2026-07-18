@@ -1,0 +1,82 @@
+{
+  "authorization": "research_only",
+  "current_weights": {
+    "159206": 0.0,
+    "159516": 0.5,
+    "513120": 0.0,
+    "515880": 0.0,
+    "561380": 0.0,
+    "562500": 0.5
+  },
+  "data_as_of": "2026-07-17",
+  "generated_at": "2026-07-18T22:17:44+08:00",
+  "market_gate_open": true,
+  "orders": [],
+  "provenance": {
+    "config": "configs\\t5_v0_2.json",
+    "data_gate": "FAIL",
+    "source_manifest": "outputs\\v0_2\\source_manifest.csv"
+  },
+  "rankings": [
+    {
+      "eligible": false,
+      "rank": 1,
+      "score": 0.11683168316831671,
+      "symbol": "513120"
+    },
+    {
+      "eligible": true,
+      "rank": 2,
+      "score": -0.1185050136736554,
+      "symbol": "562500"
+    },
+    {
+      "eligible": true,
+      "rank": 3,
+      "score": -0.20431328036322371,
+      "symbol": "159516"
+    },
+    {
+      "eligible": true,
+      "rank": 4,
+      "score": -0.22488038277511957,
+      "symbol": "159206"
+    },
+    {
+      "eligible": true,
+      "rank": 5,
+      "score": -0.24145534729878726,
+      "symbol": "561380"
+    },
+    {
+      "eligible": true,
+      "rank": 6,
+      "score": -0.2502844141069397,
+      "symbol": "515880"
+    }
+  ],
+  "reasons": [
+    "t5_v0_2_baseline generated after the 2026-07-17 close.",
+    "Market gate is open."
+  ],
+  "strategy_version": "t5_v0_2_baseline:0.2",
+  "target_weights": {
+    "159206": 0.0,
+    "159516": 0.5,
+    "513120": 0.0,
+    "515880": 0.0,
+    "561380": 0.0,
+    "562500": 0.5
+  },
+  "universe_snapshot": [
+    "159516",
+    "159206",
+    "562500",
+    "515880",
+    "561380"
+  ],
+  "warnings": [
+    "RESEARCH ONLY: the point-in-time data gate failed.",
+    "This preview is not an authorization to trade."
+  ]
+}

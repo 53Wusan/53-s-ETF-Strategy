@@ -1,0 +1,30 @@
+{
+  "version": "fixed_v0_2",
+  "as_of": "2026-07-17",
+  "includes_delisted": false,
+  "point_in_time_complete": false,
+  "listing_date_authority": "non_authoritative_first_observed_trade",
+  "purpose": "Schema and fixed-pool fallback only; not strict dynamic-universe evidence.",
+  "candidate_sources": [
+    {
+      "name": "SSE ETF list",
+      "url": "https://etf.sse.com.cn/fundlist/",
+      "role": "current exchange-listed inventory; does not alone prove delisted-history completeness"
+    },
+    {
+      "name": "SSE ETF market data",
+      "url": "https://etf.sse.com.cn/marketdata/",
+      "role": "exchange market-data cross-check"
+    },
+    {
+      "name": "AKShare ETF history",
+      "url": "https://akshare.akfamily.xyz/data/fund/fund_public.html",
+      "role": "public adjusted-price candidate; requires independent source validation"
+    },
+    {
+      "name": "Tushare fund basic",
+      "url": "https://tushare.pro/document/1?doc_id=19",
+      "role": "paid decision point for delisted fields and historical master coverage"
+    }
+  ]
+}

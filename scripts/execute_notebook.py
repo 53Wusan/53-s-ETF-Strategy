@@ -9,7 +9,11 @@ from nbclient import NotebookClient
 
 
 ROOT = Path(__file__).resolve().parents[1]
-NOTEBOOK_PATH = ROOT / "notebooks" / "01_t5_reconstruction.ipynb"
+NOTEBOOK_PATH = (
+    Path(sys.argv[1]).resolve()
+    if len(sys.argv) > 1
+    else ROOT / "notebooks" / "01_t5_reconstruction.ipynb"
+)
 
 
 def execute_notebook() -> None:

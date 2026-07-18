@@ -1,0 +1,8 @@
+symbol,name,asset_type,listing_date,delisting_date,tracked_index_id,cross_border,leveraged_inverse,source
+159516,半导体设备ETF国泰,equity_etf,2023-07-27,,unknown:159516,false,false,tencent_first_trade_date_non_authoritative
+513120,港股创新药ETF广发,equity_etf,2022-07-12,,unknown:513120,true,false,tencent_first_trade_date_non_authoritative
+159206,卫星ETF永赢,equity_etf,2025-03-14,,unknown:159206,false,false,tencent_first_trade_date_non_authoritative
+562500,机器人ETF华夏,equity_etf,2021-12-29,,unknown:562500,false,false,tencent_first_trade_date_non_authoritative
+515880,通信ETF国泰,equity_etf,2019-09-06,,unknown:515880,false,false,tencent_first_trade_date_non_authoritative
+561380,电网设备ETF国泰,equity_etf,2024-12-23,,unknown:561380,false,false,tencent_first_trade_date_non_authoritative
+

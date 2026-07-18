@@ -1,0 +1,29 @@
+{
+  "strategy_version": "v0.2-strict-research",
+  "status": "preregistered",
+  "frozen_on": "2026-07-18",
+  "research_start": "2013-01-01",
+  "research_end": "2026-07-17",
+  "cache_dir": "data/cache",
+  "security_master": "data/security_master_fixed_v0_2.csv",
+  "output_dir": "outputs/v0_2",
+  "universe_rules": {
+    "asset_types": ["equity_etf"],
+    "minimum_listing_days": 120,
+    "minimum_median_amount_20d": 100000000.0,
+    "maximum_order_participation": 0.01,
+    "account_value": 2000000.0,
+    "exclude_cross_border": true,
+    "exclude_bond": true,
+    "exclude_commodity": true,
+    "exclude_money_market": true,
+    "exclude_leveraged_inverse": true,
+    "deduplicate_tracked_index": true
+  },
+  "research_labels": {
+    "known_reconstruction_sample": "2023-09-01/2026-07-17",
+    "sealed_backward_validation_target": "2013-01-01/2023-08-31",
+    "true_out_of_sample": "not_started"
+  }
+}
+

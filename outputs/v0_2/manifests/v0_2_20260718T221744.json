@@ -1,0 +1,586 @@
+{
+  "acceptance": {
+    "base_metrics": {
+      "annual_turnover": 22.34862385321101,
+      "annual_volatility": 0.23693088461140335,
+      "average_concentration_hhi": 0.32772680937818555,
+      "average_exposure": 0.654434250764526,
+      "best_multiple": 4.013223464796688,
+      "cagr": 0.34298699015022427,
+      "calmar": 1.2184880547906378,
+      "capacity_evaluated": false,
+      "count": 225,
+      "ending_equity": 3.151847839864551,
+      "liquidity_violation_days": 0,
+      "longest_recovery_trading_days": 311,
+      "max_drawdown": -0.2814857222454731,
+      "maximum_order_participation": null,
+      "median_multiple": 2.7555741427898623,
+      "p25_multiple": 2.068552498386037,
+      "profitable_share": 1.0,
+      "sharpe": 1.3636686112182324,
+      "total_return": 2.151847839864551,
+      "total_turnover": 87.0,
+      "trade_days": 87,
+      "trade_days_per_year": 22.34862385321101,
+      "unfilled_trade_days": 0,
+      "worst_multiple": 1.5240855969122726
+    },
+    "checks": {
+      "base_drawdown": true,
+      "capacity": false,
+      "neighbor_stability": true,
+      "rolling_3y_median": false,
+      "rolling_3y_p25": true,
+      "rolling_3y_worst": true,
+      "stress_drawdown": true,
+      "stress_rolling_3y_median": false,
+      "trade_frequency": true
+    },
+    "criteria": {
+      "base_max_drawdown": 0.4,
+      "maximum_liquidity_violation_days": 0,
+      "maximum_trade_days_per_year": 60.0,
+      "rolling_3y_median_multiple": 4.0,
+      "rolling_3y_p25_multiple": 2.0,
+      "rolling_3y_worst_multiple": 1.0,
+      "stable_neighbor_count": 6,
+      "stable_neighbor_fraction_of_baseline": 0.7,
+      "stress_max_drawdown": 0.5,
+      "stress_rolling_3y_median_multiple": 3.0
+    },
+    "data_gate_passed": false,
+    "performance_passed": false,
+    "stability": {
+      "passed": true,
+      "required_count": 6,
+      "stable_count": 9,
+      "stable_strategies": [
+        "t5_neighbor_10d",
+        "t5_neighbor_20d",
+        "t5_neighbor_0p",
+        "t5_neighbor_4p",
+        "t5_neighbor_top1",
+        "t5_neighbor_top3",
+        "t5_neighbor_40i1",
+        "t5_neighbor_120i1",
+        "t5_neighbor_60i2"
+      ],
+      "threshold_multiple": 1.9289018999529035
+    },
+    "status": "BLOCKED_DATA",
+    "strategy_id": "t5_v0_2_baseline",
+    "stress_metrics": {
+      "annual_turnover": 22.34862385321101,
+      "annual_volatility": 0.3123195609583667,
+      "average_concentration_hhi": 0.32823649337410804,
+      "average_exposure": 0.654434250764526,
+      "best_multiple": 3.8020939712171757,
+      "cagr": 0.3318152609702447,
+      "calmar": 1.2604743444922972,
+      "capacity_evaluated": false,
+      "count": 225,
+      "ending_equity": 3.051003205584542,
+      "liquidity_violation_days": 0,
+      "longest_recovery_trading_days": 333,
+      "max_drawdown": -0.2632463424742656,
+      "maximum_order_participation": null,
+      "median_multiple": 2.655545329188023,
+      "p25_multiple": 2.045646021745379,
+      "profitable_share": 1.0,
+      "sharpe": 1.0648887534903442,
+      "total_return": 2.051003205584542,
+      "total_turnover": 87.0,
+      "trade_days": 87,
+      "trade_days_per_year": 22.34862385321101,
+      "unfilled_trade_days": 0,
+      "worst_multiple": 1.4969874069591254
+    }
+  },
+  "code_commit": "7f19ac7b7db5cc5ed4854e2f5011e7f34abdebe2-dirty",
+  "config_hash": "15afe0671b1873f64e229282f33995eb43b7e2f29a99ef15457448236466a4ad",
+  "created_at": "2026-07-18T22:17:44+08:00",
+  "data_end": "2026-07-17",
+  "data_gate": {
+    "earliest_complete_date": "2019-09-06",
+    "has_dual_price_sources": false,
+    "has_turnover_amount": false,
+    "includes_delisted": false,
+    "issues": [
+      {
+        "code": "survivorship_coverage_missing",
+        "date": null,
+        "evidence": {},
+        "message": "Free master does not prove coverage of delisted ETFs",
+        "severity": "critical",
+        "symbol": null
+      },
+      {
+        "code": "history_starts_too_late",
+        "date": null,
+        "evidence": {
+          "first_listing": "2019-09-06"
+        },
+        "message": "Master coverage begins after 2016-01-01",
+        "severity": "critical",
+        "symbol": null
+      },
+      {
+        "code": "adjustment_factor_jump",
+        "date": "2026-03-30",
+        "evidence": {
+          "change": 1.0
+        },
+        "message": "Adjustment factor changed by 100.00%",
+        "severity": "medium",
+        "symbol": "159516"
+      },
+      {
+        "code": "adjustment_factor_jump",
+        "date": "2026-07-10",
+        "evidence": {
+          "change": 0.9989722507708119
+        },
+        "message": "Adjustment factor changed by 99.90%",
+        "severity": "medium",
+        "symbol": "159516"
+      },
+      {
+        "code": "adjustment_factor_jump",
+        "date": "2026-02-03",
+        "evidence": {
+          "change": 1.9981024667931688
+        },
+        "message": "Adjustment factor changed by 199.81%",
+        "severity": "medium",
+        "symbol": "515880"
+      },
+      {
+        "code": "adjustment_factor_jump",
+        "date": "2026-07-06",
+        "evidence": {
+          "change": 0.9987341772151896
+        },
+        "message": "Adjustment factor changed by 99.87%",
+        "severity": "medium",
+        "symbol": "515880"
+      },
+      {
+        "code": "adjustment_factor_jump",
+        "date": "2026-06-25",
+        "evidence": {
+          "change": 1.5005268703898844
+        },
+        "message": "Adjustment factor changed by 150.05%",
+        "severity": "medium",
+        "symbol": "561380"
+      },
+      {
+        "code": "turnover_amount_missing",
+        "date": null,
+        "evidence": {},
+        "message": "No auditable turnover amount matrix",
+        "severity": "critical",
+        "symbol": null
+      },
+      {
+        "code": "dual_source_coverage_incomplete",
+        "date": null,
+        "evidence": {
+          "missing": [
+            "159206",
+            "159516",
+            "513120",
+            "515880",
+            "561380",
+            "562500"
+          ]
+        },
+        "message": "Not every ETF has a second independently sourced price series",
+        "severity": "critical",
+        "symbol": null
+      }
+    ],
+    "status": "FAIL",
+    "strict_dynamic_universe": false
+  },
+  "data_sources": [
+    {
+      "first_date": "2023-07-27",
+      "label": "159516",
+      "last_date": "2026-07-17",
+      "name": "半导体设备ETF国泰",
+      "rows": 720,
+      "series": "adjusted",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sz159516"
+    },
+    {
+      "first_date": "2023-07-27",
+      "label": "159516",
+      "last_date": "2026-07-17",
+      "name": "半导体设备ETF国泰",
+      "rows": 720,
+      "series": "raw",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sz159516"
+    },
+    {
+      "first_date": "2022-07-12",
+      "label": "513120",
+      "last_date": "2026-07-17",
+      "name": "港股创新药ETF广发",
+      "rows": 974,
+      "series": "adjusted",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh513120"
+    },
+    {
+      "first_date": "2022-07-12",
+      "label": "513120",
+      "last_date": "2026-07-17",
+      "name": "港股创新药ETF广发",
+      "rows": 974,
+      "series": "raw",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh513120"
+    },
+    {
+      "first_date": "2025-03-14",
+      "label": "159206",
+      "last_date": "2026-07-17",
+      "name": "卫星ETF永赢",
+      "rows": 327,
+      "series": "adjusted",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sz159206"
+    },
+    {
+      "first_date": "2025-03-14",
+      "label": "159206",
+      "last_date": "2026-07-17",
+      "name": "卫星ETF永赢",
+      "rows": 327,
+      "series": "raw",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sz159206"
+    },
+    {
+      "first_date": "2021-12-29",
+      "label": "562500",
+      "last_date": "2026-07-17",
+      "name": "机器人ETF华夏",
+      "rows": 1101,
+      "series": "adjusted",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh562500"
+    },
+    {
+      "first_date": "2021-12-29",
+      "label": "562500",
+      "last_date": "2026-07-17",
+      "name": "机器人ETF华夏",
+      "rows": 1101,
+      "series": "raw",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh562500"
+    },
+    {
+      "first_date": "2019-09-06",
+      "label": "515880",
+      "last_date": "2026-07-17",
+      "name": "通信ETF国泰",
+      "rows": 1661,
+      "series": "adjusted",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh515880"
+    },
+    {
+      "first_date": "2019-09-06",
+      "label": "515880",
+      "last_date": "2026-07-17",
+      "name": "通信ETF国泰",
+      "rows": 1661,
+      "series": "raw",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh515880"
+    },
+    {
+      "first_date": "2024-12-23",
+      "label": "561380",
+      "last_date": "2026-07-17",
+      "name": "电网设备ETF国泰",
+      "rows": 379,
+      "series": "adjusted",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh561380"
+    },
+    {
+      "first_date": "2024-12-23",
+      "label": "561380",
+      "last_date": "2026-07-17",
+      "name": "电网设备ETF国泰",
+      "rows": 379,
+      "series": "raw",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh561380"
+    },
+    {
+      "first_date": "2013-01-04",
+      "label": "上证指数",
+      "last_date": "2026-07-17",
+      "name": "上证指数",
+      "rows": 3286,
+      "series": "adjusted",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh000001"
+    },
+    {
+      "first_date": "2013-01-04",
+      "label": "上证指数",
+      "last_date": "2026-07-17",
+      "name": "上证指数",
+      "rows": 3286,
+      "series": "raw",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh000001"
+    },
+    {
+      "first_date": "2013-01-04",
+      "label": "深证成指",
+      "last_date": "2026-07-17",
+      "name": "深证成指",
+      "rows": 3286,
+      "series": "adjusted",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sz399001"
+    },
+    {
+      "first_date": "2013-01-04",
+      "label": "深证成指",
+      "last_date": "2026-07-17",
+      "name": "深证成指",
+      "rows": 3286,
+      "series": "raw",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sz399001"
+    },
+    {
+      "first_date": "2013-01-04",
+      "label": "创业板指",
+      "last_date": "2026-07-17",
+      "name": "创业板指",
+      "rows": 3286,
+      "series": "adjusted",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sz399006"
+    },
+    {
+      "first_date": "2013-01-04",
+      "label": "创业板指",
+      "last_date": "2026-07-17",
+      "name": "创业板指",
+      "rows": 3286,
+      "series": "raw",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sz399006"
+    },
+    {
+      "first_date": "2019-12-31",
+      "label": "科创50",
+      "last_date": "2026-07-17",
+      "name": "科创50",
+      "rows": 1585,
+      "series": "adjusted",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh000688"
+    },
+    {
+      "first_date": "2019-12-31",
+      "label": "科创50",
+      "last_date": "2026-07-17",
+      "name": "科创50",
+      "rows": 1585,
+      "series": "raw",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh000688"
+    },
+    {
+      "first_date": "2013-01-04",
+      "label": "上证50",
+      "last_date": "2026-07-17",
+      "name": "上证50",
+      "rows": 3286,
+      "series": "adjusted",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh000016"
+    },
+    {
+      "first_date": "2013-01-04",
+      "label": "上证50",
+      "last_date": "2026-07-17",
+      "name": "上证50",
+      "rows": 3286,
+      "series": "raw",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh000016"
+    },
+    {
+      "first_date": "2013-01-04",
+      "label": "沪深300",
+      "last_date": "2026-07-17",
+      "name": "沪深300",
+      "rows": 3286,
+      "series": "adjusted",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh000300"
+    },
+    {
+      "first_date": "2013-01-04",
+      "label": "沪深300",
+      "last_date": "2026-07-17",
+      "name": "沪深300",
+      "rows": 3286,
+      "series": "raw",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh000300"
+    },
+    {
+      "first_date": "2013-01-04",
+      "label": "中证500",
+      "last_date": "2026-07-17",
+      "name": "中证500",
+      "rows": 3286,
+      "series": "adjusted",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh000905"
+    },
+    {
+      "first_date": "2013-01-04",
+      "label": "中证500",
+      "last_date": "2026-07-17",
+      "name": "中证500",
+      "rows": 3286,
+      "series": "raw",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh000905"
+    },
+    {
+      "first_date": "2014-10-17",
+      "label": "中证1000",
+      "last_date": "2026-07-17",
+      "name": "中证1000",
+      "rows": 2857,
+      "series": "adjusted",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh000852"
+    },
+    {
+      "first_date": "2014-10-17",
+      "label": "中证1000",
+      "last_date": "2026-07-17",
+      "name": "中证1000",
+      "rows": 2857,
+      "series": "raw",
+      "source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get",
+      "symbol": "sh000852"
+    }
+  ],
+  "data_start": "2022-06-30",
+  "execution": {
+    "execution": "next_twap_proxy",
+    "one_way_transaction_cost": 0.001,
+    "reject_same_close": true,
+    "signal_time": "close_t",
+    "stress_transaction_cost": 0.002,
+    "timezone": "Asia/Shanghai"
+  },
+  "metrics": {
+    "annual_turnover": 22.34862385321101,
+    "annual_volatility": 0.23693088461140335,
+    "average_concentration_hhi": 0.32772680937818555,
+    "average_exposure": 0.654434250764526,
+    "best_multiple": 4.013223464796688,
+    "cagr": 0.34298699015022427,
+    "calmar": 1.2184880547906378,
+    "capacity_evaluated": false,
+    "count": 225,
+    "ending_equity": 3.151847839864551,
+    "liquidity_violation_days": 0,
+    "longest_recovery_trading_days": 311,
+    "max_drawdown": -0.2814857222454731,
+    "maximum_order_participation": null,
+    "median_multiple": 2.7555741427898623,
+    "p25_multiple": 2.068552498386037,
+    "profitable_share": 1.0,
+    "sharpe": 1.3636686112182324,
+    "total_return": 2.151847839864551,
+    "total_turnover": 87.0,
+    "trade_days": 87,
+    "trade_days_per_year": 22.34862385321101,
+    "unfilled_trade_days": 0,
+    "worst_multiple": 1.5240855969122726
+  },
+  "run_id": "v0_2_20260718T221744",
+  "strategy": {
+    "absolute_momentum_required": false,
+    "data_version": "fixed-pool-free-v0.2",
+    "execution_rules": {
+      "execution": "next_twap_proxy",
+      "one_way_transaction_cost": 0.001,
+      "reject_same_close": true,
+      "signal_time": "close_t",
+      "stress_transaction_cost": 0.002,
+      "timezone": "Asia/Shanghai"
+    },
+    "family": "t5",
+    "market_gate_window": 60,
+    "maximum_asset_weight": 1.0,
+    "minimum_positive_indices": 1,
+    "momentum_window": 15,
+    "notes": [],
+    "rebalance_frequency": "daily",
+    "replacement_buffer": 0.02,
+    "secondary_momentum_window": null,
+    "strategy_id": "t5_v0_2_baseline",
+    "top_k": 2,
+    "trend_window": null,
+    "universe_rules": {
+      "account_value": 2000000.0,
+      "asset_types": [
+        "equity_etf"
+      ],
+      "deduplicate_tracked_index": true,
+      "exclude_bond": true,
+      "exclude_commodity": true,
+      "exclude_cross_border": true,
+      "exclude_leveraged_inverse": true,
+      "exclude_money_market": true,
+      "maximum_order_participation": 0.01,
+      "minimum_listing_days": 120,
+      "minimum_median_amount_20d": 100000000.0
+    },
+    "version": "0.2",
+    "volatility_target": null,
+    "volatility_window": 20,
+    "weighting": "equal"
+  },
+  "universe": {
+    "account_value": 2000000.0,
+    "asset_types": [
+      "equity_etf"
+    ],
+    "deduplicate_tracked_index": true,
+    "exclude_bond": true,
+    "exclude_commodity": true,
+    "exclude_cross_border": true,
+    "exclude_leveraged_inverse": true,
+    "exclude_money_market": true,
+    "maximum_order_participation": 0.01,
+    "minimum_listing_days": 120,
+    "minimum_median_amount_20d": 100000000.0
+  },
+  "warnings": [
+    "Fixed-pool exploratory result; not a strict dynamic-universe backtest."
+  ]
+}

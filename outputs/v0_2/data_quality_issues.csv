@@ -1,0 +1,10 @@
+﻿code,severity,message,symbol,date,evidence
+survivorship_coverage_missing,critical,Free master does not prove coverage of delisted ETFs,,,{}
+history_starts_too_late,critical,Master coverage begins after 2016-01-01,,,{'first_listing': '2019-09-06'}
+adjustment_factor_jump,medium,Adjustment factor changed by 100.00%,159516,2026-03-30,{'change': 1.0}
+adjustment_factor_jump,medium,Adjustment factor changed by 99.90%,159516,2026-07-10,{'change': 0.9989722507708119}
+adjustment_factor_jump,medium,Adjustment factor changed by 199.81%,515880,2026-02-03,{'change': 1.9981024667931688}
+adjustment_factor_jump,medium,Adjustment factor changed by 99.87%,515880,2026-07-06,{'change': 0.9987341772151896}
+adjustment_factor_jump,medium,Adjustment factor changed by 150.05%,561380,2026-06-25,{'change': 1.5005268703898844}
+turnover_amount_missing,critical,No auditable turnover amount matrix,,,{}
+dual_source_coverage_incomplete,critical,Not every ETF has a second independently sourced price series,,,"{'missing': ['159206', '159516', '513120', '515880', '561380', '562500']}"
