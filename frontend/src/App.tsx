@@ -1,7 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { ApiError, api, staticDesk } from './api'
-import UnlockPage from './pages/UnlockPage'
 import Layout from './components/Layout'
 import LoginPage from './pages/LoginPage'
 
@@ -14,8 +13,6 @@ const ShadowPage = lazy(() => import('./pages/ShadowPage'))
 
 export default function App() {
   const location = useLocation()
-  const [unlocked, setUnlocked] = useState(false)
-  if (staticDesk && !unlocked) return <UnlockPage onUnlock={() => setUnlocked(true)} />
   if (!staticDesk && location.pathname === '/login') return <Routes><Route path="/login" element={<LoginPage />} /></Routes>
   return <AuthenticatedApp />
 }

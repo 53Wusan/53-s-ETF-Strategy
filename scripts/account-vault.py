@@ -1,4 +1,4 @@
-"""Only ciphertext is committed; plaintext account files stay on the runner."""
+"""Encrypt internal state; publish only the public paper-account view."""
 import argparse
 import json
 import os
@@ -12,7 +12,7 @@ args = parser.parse_args()
 root = Path(__file__).resolve().parents[1]
 folder = root / "account"
 folder.mkdir(exist_ok=True)
-password = os.environ["DESK_PASSWORD"]
+password = os.environ.get("DESK_PASSWORD", "")
 vault = folder / "state.enc.json"
 if args.mode == "unlock":
     data = decrypt(json.loads(vault.read_text()), password)
@@ -25,11 +25,15 @@ elif args.mode == "lock":
     vault.write_text(json.dumps(encrypt(data, password)), encoding="utf8")
 else:
     public = root / "frontend/public/data"
-    data = {p.name: json.loads(p.read_text(encoding="utf8")) for p in public.glob("*.json") if p.name != "desk.enc.json"}
-    if (folder/"shadow.json").exists():
-        data["account.json"] = json.loads((folder/"shadow.json").read_text(encoding="utf8"))
-    encrypted = encrypt(data, password)
-    for p in public.glob("*.json"):
-        p.unlink()
-    (public/"desk.enc.json").write_text(json.dumps(encrypted), encoding="utf8")
-print(f"Encrypted data {args.mode} completed; password and account values omitted")
+    public.mkdir(parents=True, exist_ok=True)
+    # Never export the account configuration (broker, credentials, private notes).
+    allowed = {"kind", "currency", "profile", "activation_date", "data_date", "fee_status",
+               "share_basis", "initial_usd", "buy_budget_usd", "cash_usd", "equity_usd",
+               "positions", "trades", "next_open_plan"}
+    shadow = json.loads((folder/"shadow.json").read_text(encoding="utf8"))
+    unknown = set(shadow) - allowed
+    if unknown:
+        raise ValueError("Unexpected account fields; review before public export")
+    (public/"account.json").write_text(json.dumps(shadow, ensure_ascii=False), encoding="utf8")
+    (public/"desk.enc.json").unlink(missing_ok=True)
+print(f"Account data {args.mode} completed; credentials omitted")

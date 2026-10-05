@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           {!staticDesk && <NavLink to="/portfolio">组合</NavLink>}
           {!staticDesk && <NavLink to="/trades">实盘记录</NavLink>}
         </nav>
-        <button className="ghost" onClick={staticDesk ? () => window.location.reload() : logout}>退出</button>
+        {!staticDesk && <button className="ghost" onClick={logout}>退出</button>}
       </header>
       <main>{children}</main>
       <footer>数据与模型仅供研究，不构成投资建议，不会自动下单。</footer>

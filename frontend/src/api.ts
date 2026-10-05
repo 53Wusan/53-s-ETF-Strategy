@@ -7,24 +7,20 @@ export class ApiError extends Error {
 }
 
 export const staticDesk = import.meta.env.VITE_STATIC_DESK === 'true'
-let unlockedData: Record<string, unknown> | null = null
-export async function unlockDesk(password: string) {
-  const response = await fetch(`${import.meta.env.BASE_URL}data/desk.enc.json`, { cache: 'no-cache' })
-  if (!response.ok) throw new Error('网站快照暂未就绪')
-  const envelope = await response.json()
-  if (envelope.version !== 1 || envelope.iterations !== 310000) throw new Error('数据格式不兼容')
-  const bytes = (s: string) => Uint8Array.from(atob(s), c => c.charCodeAt(0))
-  const material = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey'])
-  const key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: bytes(envelope.salt), iterations: envelope.iterations, hash: 'SHA-256' }, material, { name: 'AES-GCM', length: 256 }, false, ['decrypt'])
-  try {
-    const decoded = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: bytes(envelope.nonce) }, key, bytes(envelope.ciphertext))
-    unlockedData = JSON.parse(new TextDecoder().decode(decoded))
-  } catch { throw new Error('密码不正确，或快照已损坏') }
+const snapshots = new Map<string, Promise<Record<string, unknown>>>()
+function staticSnapshot(file: string): Promise<Record<string, unknown>> {
+  if (!snapshots.has(file)) {
+    const request = fetch(`${import.meta.env.BASE_URL}data/${file}`, { cache: 'no-cache' }).then(async response => {
+      if (!response.ok) throw new ApiError(response.status, '每日快照暂未就绪')
+      return response.json() as Promise<Record<string, unknown>>
+    }).catch(error => { snapshots.delete(file); throw error })
+    snapshots.set(file, request)
+  }
+  return snapshots.get(file)!
 }
 
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   if (staticDesk) {
-    if (!unlockedData) throw new ApiError(401, '请输入网站密码')
     if (path === '/auth/me') return {} as T
     if (init?.method && init.method !== 'GET') throw new ApiError(405, '每日数据由自动任务更新')
     const url = new URL(path, 'https://desk.invalid')
@@ -36,15 +32,14 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
     else if (url.pathname.startsWith('/desk/strategies/')) file = `strategy-${url.pathname.split('/').pop()}.json`
     else if (url.pathname.startsWith('/desk/observation/')) file = `observation-${url.pathname.split('/').pop()}.json`
     if (!file) throw new ApiError(404, '该账户功能未在公开页面提供')
-    if (!(file in unlockedData)) throw new ApiError(404, '每日快照暂未就绪')
-    const value = structuredClone(unlockedData[file]) as Record<string, unknown>
+    const value = structuredClone(await staticSnapshot(file))
     if (url.pathname === '/execution/catalog' && value.valid_until && Date.now() > Date.parse(String(value.valid_until))) {
       value.stale = true
       value.next_open_plan = null
       value.last_completed_session = '等待自动更新'
     }
-    if (url.pathname === '/execution/catalog' && unlockedData['account.json']) {
-      const account = unlockedData['account.json'] as { next_open_plan: unknown; buy_budget_usd: number; positions: Record<string, unknown>; cash_usd: number; data_date: string }
+    if (url.pathname === '/execution/catalog' && url.searchParams.get('profile') === 'rank2') {
+      const account = await staticSnapshot('account.json') as { next_open_plan: unknown; buy_budget_usd: number; positions: Record<string, unknown>; cash_usd: number; data_date: string }
       if (url.searchParams.get('profile') === 'rank2') {
         if (!value.stale) value.next_open_plan = account.next_open_plan
         value.buy_budget_usd = account.buy_budget_usd
