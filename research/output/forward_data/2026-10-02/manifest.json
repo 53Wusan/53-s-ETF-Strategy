@@ -1,0 +1,155 @@
+{
+  "strategy_version": "no_yinn_paper_v1",
+  "frozen_cutoff": "2026-09-18",
+  "latest_completed_session": "2026-10-02",
+  "market_last_completed_session": "2026-10-02",
+  "captured_at_utc": "2026-10-04T20:50:31.712541+00:00",
+  "retrospective_backfill": true,
+  "provider": "stockanalysis-spglobal",
+  "previous_snapshot": "2026-09-25",
+  "symbols": [
+    "TQQQ",
+    "SOXL",
+    "FAS",
+    "GDXU",
+    "CONL",
+    "CURE",
+    "LABU",
+    "NAIL",
+    "DFEN",
+    "TECL",
+    "UPRO",
+    "EDC",
+    "UGL",
+    "YINN",
+    "QLD"
+  ],
+  "audit": {
+    "TQQQ": {
+      "adjustment_factor": 0.9980698817582988,
+      "overlap_price_relative_error": 1.3337407779090427e-05,
+      "overlap_score_absolute_error": 4.29780398221169e-05,
+      "continuity_factor": 0.99999988057533,
+      "preserved_through": "2026-09-25",
+      "new_rows": 5,
+      "source_url": "https://stockanalysis.com/etf/tqqq/history/"
+    },
+    "SOXL": {
+      "adjustment_factor": 0.9993454574121836,
+      "overlap_price_relative_error": 3.7872892826196214e-05,
+      "overlap_score_absolute_error": 5.757960735763845e-06,
+      "continuity_factor": 1.0000006599952933,
+      "preserved_through": "2026-09-25",
+      "new_rows": 5,
+      "source_url": "https://stockanalysis.com/etf/soxl/history/"
+    },
+    "FAS": {
+      "adjustment_factor": 0.9938710061770499,
+      "overlap_price_relative_error": 1.8853832022269756e-06,
+      "overlap_score_absolute_error": 2.560720378141923e-05,
+      "continuity_factor": 1.0000018007725415,
+      "preserved_through": "2026-09-25",
+      "new_rows": 5,
+      "source_url": "https://stockanalysis.com/etf/fas/history/"
+    },
+    "GDXU": {
+      "adjustment_factor": 0.9999999918949429,
+      "overlap_price_relative_error": 4.777514750475831e-08,
+      "overlap_score_absolute_error": 1.6215171765310288e-06,
+      "continuity_factor": 0.9999999918949429,
+      "preserved_through": "2026-09-25",
+      "new_rows": 5,
+      "source_url": "https://stockanalysis.com/etf/gdxu/history/"
+    },
+    "CONL": {
+      "adjustment_factor": 0.9999999865320248,
+      "overlap_price_relative_error": 4.8734823954177386e-08,
+      "overlap_score_absolute_error": 0.07570949480497546,
+      "continuity_factor": 0.9999999774638064,
+      "preserved_through": "2026-09-25",
+      "new_rows": 5,
+      "source_url": "https://stockanalysis.com/etf/conl/history/"
+    },
+    "CURE": {
+      "adjustment_factor": 0.9975968265622228,
+      "overlap_price_relative_error": 1.583672631699784e-06,
+      "overlap_score_absolute_error": 0.0004474373911038665,
+      "continuity_factor": 0.9999984441118337,
+      "preserved_through": "2026-09-25",
+      "new_rows": 5,
+      "source_url": "https://stockanalysis.com/etf/cure/history/"
+    },
+    "LABU": {
+      "adjustment_factor": 0.9999999859288695,
+      "overlap_price_relative_error": 3.535550396893683e-08,
+      "overlap_score_absolute_error": 9.93408804106366e-07,
+      "continuity_factor": 0.9999999907639117,
+      "preserved_through": "2026-09-25",
+      "new_rows": 5,
+      "source_url": "https://stockanalysis.com/etf/labu/history/"
+    },
+    "NAIL": {
+      "adjustment_factor": 0.9960766547347066,
+      "overlap_price_relative_error": 5.82231010226586e-06,
+      "overlap_score_absolute_error": 0.0007045482163370309,
+      "continuity_factor": 0.9999942046811274,
+      "preserved_through": "2026-09-25",
+      "new_rows": 5,
+      "source_url": "https://stockanalysis.com/etf/nail/history/"
+    },
+    "DFEN": {
+      "adjustment_factor": 0.9997806926011267,
+      "overlap_price_relative_error": 3.3520144758769632e-06,
+      "overlap_score_absolute_error": 3.925409129124091e-05,
+      "continuity_factor": 1.000003352025712,
+      "preserved_through": "2026-09-25",
+      "new_rows": 5,
+      "source_url": "https://stockanalysis.com/etf/dfen/history/"
+    },
+    "TECL": {
+      "adjustment_factor": 1.0000000212478621,
+      "overlap_price_relative_error": 0.0009306342042240123,
+      "overlap_score_absolute_error": 0.014867622560021942,
+      "continuity_factor": 1.0009102403151156,
+      "preserved_through": "2026-09-25",
+      "new_rows": 5,
+      "source_url": "https://stockanalysis.com/etf/tecl/history/"
+    },
+    "UPRO": {
+      "adjustment_factor": 0.9982479479725332,
+      "overlap_price_relative_error": 1.147270564216818e-06,
+      "overlap_score_absolute_error": 0.00047860139459210416,
+      "continuity_factor": 1.0000010794500365,
+      "preserved_through": "2026-09-25",
+      "new_rows": 5,
+      "source_url": "https://stockanalysis.com/etf/upro/history/"
+    },
+    "EDC": {
+      "adjustment_factor": 0.99735348823929,
+      "overlap_price_relative_error": 6.614771577040379e-05,
+      "overlap_score_absolute_error": 0.010409754033777863,
+      "continuity_factor": 1.0000661520915801,
+      "preserved_through": "2026-09-25",
+      "new_rows": 5,
+      "source_url": "https://stockanalysis.com/etf/edc/history/"
+    },
+    "UGL": {
+      "adjustment_factor": 1.0000000000638916,
+      "overlap_price_relative_error": 3.626505051812501e-08,
+      "overlap_score_absolute_error": 3.4696986901394666e-06,
+      "continuity_factor": 0.9999999688278852,
+      "preserved_through": "2026-09-25",
+      "new_rows": 5,
+      "source_url": "https://stockanalysis.com/etf/ugl/history/"
+    },
+    "YINN": {
+      "adjustment_factor": 0.9798990441813162,
+      "overlap_price_relative_error": 1.5163692672626183e-05,
+      "overlap_score_absolute_error": 0.0034837688972579883,
+      "continuity_factor": 1.0000151146826481,
+      "preserved_through": "2026-09-25",
+      "new_rows": 5,
+      "source_url": "https://stockanalysis.com/etf/yinn/history/"
+    }
+  }
+}

@@ -1,0 +1,89 @@
+name: Daily ETF desk
+on:
+  push:
+    branches: [main]
+  schedule:
+    # After the US close in both DST and standard time; avoid the top of the hour.
+    - cron: '47 23 * * 1-5'
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: daily-etf-desk
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DESK_PASSWORD: ${{ secrets.DESK_PASSWORD }}
+      PYTHONPATH: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: backend/pyproject.toml
+      - name: Check password configuration
+        run: python -c "import os; assert len(os.environ.get('DESK_PASSWORD', '')) >= 16, 'Configure DESK_PASSWORD in repository Actions secrets before deployment'"
+      - run: python scripts/restore-runtime.py
+      - name: Install calculator
+        run: pip install ./backend
+      - name: Unlock encrypted account state
+        run: python scripts/account-vault.py unlock
+      - name: Activate the independent paper account
+        env:
+          PYTHONPATH: backend
+        run: python scripts/activate-account.py
+      - name: Calculate the daily desk
+        env:
+          PYTHONPATH: backend
+          DATABASE_URL: 'sqlite:///:memory:'
+        run: python -m app.cli update-desk --account account/config.json
+      - name: Encrypt account state
+        run: python scripts/account-vault.py lock
+      - name: Persist validated snapshots
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add research/output/forward_data account/state.enc.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'data: update completed-session ETF indicators and plans'
+            git push
+          fi
+      - name: Retain run receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-update-receipt
+          path: research/output/forward_data/daily_update.json
+          retention-days: 30
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: corepack enable && pnpm install --frozen-lockfile
+        working-directory: frontend
+      - run: python scripts/export-static.py
+      - run: python scripts/account-vault.py site
+      - name: Build password-protected site
+        working-directory: frontend
+        env:
+          VITE_STATIC_DESK: 'true'
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
+        run: pnpm build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/dist
+  deploy:
+    needs: update
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish website
+        id: deployment
+        uses: actions/deploy-pages@v4

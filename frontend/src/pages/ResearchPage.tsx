@@ -1,0 +1,32 @@
+import { lazy, Suspense, useEffect, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { api } from '../api'
+import { hkd, pct, tone } from '../deskTypes'
+import type { StrategyList, StrategyDetail } from '../deskTypes'
+const DeskChart = lazy(() => import('../components/DeskChart'))
+export default function ResearchPage() {
+  const [params, setParams] = useSearchParams()
+  const selected = params.get('strategy') || 'rank2'
+  const [list, setList] = useState<StrategyList | null>(null)
+  const [detail, setDetail] = useState<StrategyDetail | null>(null)
+  const [error, setError] = useState('')
+  const [page, setPage] = useState(0)
+  useEffect(() => { const controller = new AbortController(); api<StrategyList>('/desk/strategies', { signal: controller.signal }).then(value => { if (!controller.signal.aborted) setList(value) }).catch(e => { if (!controller.signal.aborted) setError(e.message) }); return () => controller.abort() }, [])
+  useEffect(() => { const controller = new AbortController(); api<StrategyDetail>(`/desk/strategies/${encodeURIComponent(selected)}`, { signal: controller.signal }).then(value => { if (!controller.signal.aborted) setDetail(value) }).catch(e => { if (!controller.signal.aborted) setError(e.message) }); return () => controller.abort() }, [selected])
+  function exportTrades() { if (!detail) return; const columns = ['date','symbol','side','reason','price','quantity','realized_pnl_hkd'] as const; const csv = '\ufeff' + [columns.join(','), ...detail.trades.map(t => columns.map(k => '"' + String(t[k] ?? '').replaceAll('"','""') + '"').join(','))].join('\r\n'); const url = URL.createObjectURL(new Blob([csv],{ type: 'text/csv;charset=utf-8' })); const a = document.createElement('a'); a.href=url; a.download=`${detail.id}_trades.csv`; a.click(); URL.revokeObjectURL(url) }
+  return <div className="execution-dashboard"><div className="desk-heading"><div><span className="desk-eyebrow">保留方案 · 同口径比较</span><h1>少几种，看清每一种。</h1><p>保留主方案、短周期与三个单品种候选；重复和过时研究已留在本地存档。</p></div><Link className="desk-button" to="/">返回每日操作</Link></div>
+    {error && <div className="desk-alert error" role="alert">{error}</div>}
+    {list && <><p className="desk-footnote">统一区间 {list.start} → {list.end} · {list.note}</p>{list.stale && <div className="desk-alert">保留方案与最新行情日期不同，以下为历史研究结果。</div>}<div className="desk-strategy-grid">{list.items.map(s => <button className={`desk-strategy-card ${selected === s.id ? 'selected' : ''}`} key={s.id} onClick={() => { setDetail(null); setError(''); setPage(0); setParams({ strategy: s.id }) }} aria-pressed={selected === s.id}><div className="desk-tags">{s.tags.map(t => <span key={t}>{t}</span>)}</div><h2>{s.label}</h2><p>{s.description}</p><div className="desk-card-metrics"><div><span>累计收益</span><strong className={tone(s.metrics.return_pct)}>{pct(s.metrics.return_pct)}</strong></div><div><span>最大回撤</span><strong className="negative">{pct(s.metrics.max_drawdown_pct)}</strong></div></div><small>{s.daily_enabled ? '可在首页作为每日参考' : '集中仓位研究候选；不是首页默认规则'}</small></button>)}</div></>}
+    {!list && !error && <div className="desk-empty">正在读取保留方案…</div>}
+    {detail && detail.id === selected && <section className="desk-panel"><div className="desk-section-heading"><div><span className="desk-eyebrow">{detail.symbols.join(' · ')}</span><h2>{detail.label}</h2><p>每笔本金{detail.capital.lot_fraction*100}% · 最多{detail.capital.max_lots}笔／只 · 保留现金{hkd(detail.capital.reserve_hkd)} · 最长{detail.rule.max_hold_days}自然日后逐笔退出</p></div><button className="desk-button" onClick={exportTrades}>导出模拟操作</button></div>
+      <div className="desk-alert"><strong>历史研究收益，不是实盘收益</strong><span>{detail.daily_enabled ? '组合参数来自历史筛选。' : '初始50万港币，每笔10万、最多五笔，不随净值复利放大。'} 收益是累计口径，手续费单边0.1%；回撤不是止损上限，次日开盘也可能跳空。</span></div>
+      <details className="desk-rule-details"><summary>买卖规则关键词</summary><p>{detail.id === 'gdxu_decile' ? '自身前600个有效交易日指数底部10%买、顶部10%直接卖一笔。' : `指数≤${detail.rule.buy_score}买入；指数≥${detail.rule.sell_score}或盈利${detail.rule.profit_target*100}%${detail.rule.exit_mode === 'trail' ? '启动保护，回撤10%卖一笔' : '先兑现一笔，再分档或回撤卖出'}。`} 仍在买入区且较上笔价格跌{detail.rule.add_drop*100}%、至少隔{detail.rule.buy_gap_days}自然日才加仓。首次卖出后停止加仓，清仓后冷却{detail.rule.reentry_days}日；{detail.rule.max_hold_days}日到期开始逐笔退出。</p></details>
+      <div className="desk-table-scroll"><table className="desk-table"><thead><tr><th>年份</th><th>年度收益</th><th>年内回撤</th><th>买／卖</th></tr></thead><tbody>{detail.annual.map(y => <tr key={y.year}><td>{y.year}{y.year === 2026 ? `（截至${y.through}）` : y.year === 2024 ? '（4月25日起）' : ''}</td><td className={tone(y.return_pct)}>{pct(y.return_pct)}</td><td className="negative">{pct(y.max_drawdown_pct)}</td><td>{y.buys}／{y.sells}</td></tr>)}</tbody></table></div>
+      <Suspense fallback={<div className="desk-empty">正在绘制净值…</div>}><DeskChart height={280} option={{ animation: false, tooltip: { trigger: 'axis' }, grid: { left: 60, right: 20, top: 30, bottom: 45 }, xAxis: { type: 'category', data: detail.curve.map(p=>p.date), axisLabel: { hideOverlap: true } }, yAxis: { type: 'value', scale: true, axisLabel: { formatter: (v: number)=>`${Math.round(v/10000)}万` } }, series: [{ name: '模拟账户净值 · HKD', type: 'line', showSymbol: false, data: detail.curve.map(p=>p.equity_hkd), lineStyle: { color: '#7756df' } }] }} /></Suspense>
+      <p className="desk-footnote">{detail.stress2022 ? `2022年现金起步压力：收益${pct(detail.stress2022.return_pct)}、最大回撤${pct(detail.stress2022.max_drawdown_pct)}。` : '2022年没有足够的GDXU 600日指标历史，未提供十分位压力回测。'} 压力回测也不是独立样本外证明。</p>
+      <details className="desk-rule-details"><summary>模拟成交明细 · {detail.trades.length}笔</summary><div className="desk-table-scroll"><table className="desk-table"><thead><tr><th>日期</th><th>品种／方向</th><th>触发原因</th><th>复权价格／份额</th><th>本笔盈亏</th></tr></thead><tbody>{detail.trades.slice(page*25,(page+1)*25).map((t,i)=><tr key={`${t.date}-${t.symbol}-${i}`}><td>{t.date}</td><td>{t.symbol} · {t.side === 'buy' ? '买入' : '卖出'}</td><td>{t.reason}</td><td>${t.price.toFixed(2)}／{t.quantity.toFixed(3)}</td><td>{t.side === 'sell' ? hkd(t.realized_pnl_hkd) : '未实现'}</td></tr>)}</tbody></table></div><div className="desk-pagination"><button className="desk-button" disabled={page===0} onClick={()=>setPage(page-1)}>上一页</button><span>{page+1}／{Math.max(1,Math.ceil(detail.trades.length/25))}</span><button className="desk-button" disabled={(page+1)*25>=detail.trades.length} onClick={()=>setPage(page+1)}>下一页</button></div></details>
+    </section>}
+  </div>
+}
+
+

@@ -1,0 +1,93 @@
+export class ApiError extends Error {
+  status: number
+  constructor(status: number, message: string) {
+    super(message)
+    this.status = status
+  }
+}
+
+export const staticDesk = import.meta.env.VITE_STATIC_DESK === 'true'
+let unlockedData: Record<string, unknown> | null = null
+export async function unlockDesk(password: string) {
+  const response = await fetch(`${import.meta.env.BASE_URL}data/desk.enc.json`, { cache: 'no-cache' })
+  if (!response.ok) throw new Error('网站快照暂未就绪')
+  const envelope = await response.json()
+  if (envelope.version !== 1 || envelope.iterations !== 310000) throw new Error('数据格式不兼容')
+  const bytes = (s: string) => Uint8Array.from(atob(s), c => c.charCodeAt(0))
+  const material = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey'])
+  const key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: bytes(envelope.salt), iterations: envelope.iterations, hash: 'SHA-256' }, material, { name: 'AES-GCM', length: 256 }, false, ['decrypt'])
+  try {
+    const decoded = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: bytes(envelope.nonce) }, key, bytes(envelope.ciphertext))
+    unlockedData = JSON.parse(new TextDecoder().decode(decoded))
+  } catch { throw new Error('密码不正确，或快照已损坏') }
+}
+
+export async function api<T>(path: string, init?: RequestInit): Promise<T> {
+  if (staticDesk) {
+    if (!unlockedData) throw new ApiError(401, '请输入网站密码')
+    if (path === '/auth/me') return {} as T
+    if (init?.method && init.method !== 'GET') throw new ApiError(405, '每日数据由自动任务更新')
+    const url = new URL(path, 'https://desk.invalid')
+    let file: string | undefined
+    if (url.pathname === '/account') file = 'account.json'
+    if (url.pathname === '/execution/catalog') file = `catalog-${url.searchParams.get('profile') || 'rank2'}.json`
+    else if (url.pathname.startsWith('/execution/history/')) file = `history-${url.pathname.split('/').pop()}.json`
+    else if (url.pathname === '/desk/strategies') file = 'strategies.json'
+    else if (url.pathname.startsWith('/desk/strategies/')) file = `strategy-${url.pathname.split('/').pop()}.json`
+    else if (url.pathname.startsWith('/desk/observation/')) file = `observation-${url.pathname.split('/').pop()}.json`
+    if (!file) throw new ApiError(404, '该账户功能未在公开页面提供')
+    if (!(file in unlockedData)) throw new ApiError(404, '每日快照暂未就绪')
+    const value = structuredClone(unlockedData[file]) as Record<string, unknown>
+    if (url.pathname === '/execution/catalog' && value.valid_until && Date.now() > Date.parse(String(value.valid_until))) {
+      value.stale = true
+      value.next_open_plan = null
+      value.last_completed_session = '等待自动更新'
+    }
+    if (url.pathname === '/execution/catalog' && unlockedData['account.json']) {
+      const account = unlockedData['account.json'] as { next_open_plan: unknown; buy_budget_usd: number; positions: Record<string, unknown>; cash_usd: number; data_date: string }
+      if (url.searchParams.get('profile') === 'rank2') {
+        if (!value.stale) value.next_open_plan = account.next_open_plan
+        value.buy_budget_usd = account.buy_budget_usd
+        value.simulation_account = { cash_hkd: account.cash_usd * 7.8, position_count: Object.keys(account.positions).length }
+        value.items = (value.items as Array<Record<string, unknown>>).map(item => ({ ...item, position: account.positions[String(item.symbol)] || null }))
+      }
+    }
+    if (url.pathname.startsWith('/execution/history/')) {
+      const limit = Number(url.searchParams.get('limit') || 600)
+      if (limit > 0) value.points = (value.points as unknown[]).slice(-limit)
+    }
+    return value as T
+  }
+  const headers = init?.body instanceof FormData
+    ? init.headers
+    : { 'Content-Type': 'application/json', ...(init?.headers || {}) }
+  const response = await fetch(`/api${path}`, {
+    credentials: 'include',
+    headers,
+    ...init,
+  })
+  if (!response.ok) {
+    let message = `请求失败 (${response.status})`
+    try {
+      const body = await response.json()
+      message = typeof body.detail === 'string' ? body.detail : body.detail?.message || message
+    } catch {
+      // Keep the HTTP fallback message.
+    }
+    throw new ApiError(response.status, message)
+  }
+  return response.json() as Promise<T>
+}
+
+export function formatMoney(value: number, currency = 'CNY') {
+  return new Intl.NumberFormat('zh-CN', {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: 2,
+  }).format(value || 0)
+}
+
+export function formatPct(value?: number) {
+  if (value === undefined || Number.isNaN(value)) return '—'
+  return `${(value * 100).toFixed(1)}%`
+}
