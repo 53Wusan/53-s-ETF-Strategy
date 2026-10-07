@@ -23,7 +23,7 @@ jobs:
           node-version: '22'
       - run: python scripts/restore-runtime.py
       - run: pip install './backend[dev]'
-      - run: python -m pytest backend/tests/test_daily_update.py backend/tests/test_shadow_account.py backend/tests/test_encrypted_data.py -q
+      - run: python -m pytest backend/tests/test_execution_data_refresh.py backend/tests/test_daily_update.py backend/tests/test_shadow_account.py backend/tests/test_encrypted_data.py -q
         env:
           PYTHONPATH: backend
       - run: corepack enable && pnpm install --frozen-lockfile

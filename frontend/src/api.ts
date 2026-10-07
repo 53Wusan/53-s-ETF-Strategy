@@ -7,17 +7,21 @@ export class ApiError extends Error {
 }
 
 export const staticDesk = import.meta.env.VITE_STATIC_DESK === 'true'
-const snapshots = new Map<string, Promise<Record<string, unknown>>>()
+const snapshotTtlMs = 5 * 60 * 1000
+const snapshots = new Map<string, { loadedAt: number; request: Promise<Record<string, unknown>> }>()
 function staticSnapshot(file: string): Promise<Record<string, unknown>> {
-  if (!snapshots.has(file)) {
+  const saved = snapshots.get(file)
+  if (!saved || Date.now() - saved.loadedAt >= snapshotTtlMs) {
     const request = fetch(`${import.meta.env.BASE_URL}data/${file}`, { cache: 'no-cache' }).then(async response => {
       if (!response.ok) throw new ApiError(response.status, '每日快照暂未就绪')
       return response.json() as Promise<Record<string, unknown>>
     }).catch(error => { snapshots.delete(file); throw error })
-    snapshots.set(file, request)
+    snapshots.set(file, { loadedAt: Date.now(), request })
   }
-  return snapshots.get(file)!
+  return snapshots.get(file)!.request
 }
+
+export function invalidateStaticSnapshots() { snapshots.clear() }
 
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   if (staticDesk) {

@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { api, staticDesk } from '../api'
+import { api, invalidateStaticSnapshots, staticDesk } from '../api'
 import LiveLedger from '../components/LiveLedger'
 import type { RecordIntent } from '../components/LiveLedger'
 import ObservationSummary from '../components/ObservationSummary'
@@ -24,6 +24,17 @@ export default function ExecutionPage() {
   const [refreshing, setRefreshing] = useState(false)
   const [revision, setRevision] = useState(0)
   const [intent, setIntent] = useState<RecordIntent>(); const intentCounter = useRef(0)
+  useEffect(() => {
+    if (!staticDesk) return
+    const check = () => {
+      if (document.visibilityState !== 'visible') return
+      invalidateStaticSnapshots()
+      setRevision(value => value + 1)
+    }
+    const timer = window.setInterval(check, 5 * 60 * 1000)
+    document.addEventListener('visibilitychange', check)
+    return () => { window.clearInterval(timer); document.removeEventListener('visibilitychange', check) }
+  }, [])
   useEffect(() => {
     const controller = new AbortController()
     api<Catalog>(`/execution/catalog?profile=${profile}`, { signal: controller.signal }).then(value => { if (!controller.signal.aborted) setCatalog(value) }).catch(e => { if (!controller.signal.aborted) setError(e.message) })
