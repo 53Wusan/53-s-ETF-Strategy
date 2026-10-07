@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
 
-from app.services.market_data import MarketDataError
+from app.services.market_data import MarketDataError, YahooChartProvider
 from app.services.public_history import PublicHistoryProvider
 from app.services.research_cockpit import (
     BENCHMARK_SYMBOLS,
@@ -31,14 +31,27 @@ from app.services.research_data_refresh import (
 )
 
 
+def _history_through(symbol, completed):
+    """Use a complete daily source; reject stale records before publishing."""
+    primary = PublicHistoryProvider().history(symbol, OVERLAP_START, completed)
+    primary.index = pd.to_datetime(primary.index)
+    if pd.Timestamp(completed) in primary.index:
+        return primary
+    fallback = YahooChartProvider().history(symbol, OVERLAP_START, completed)
+    fallback.index = pd.to_datetime(fallback.index)
+    if pd.Timestamp(completed) not in fallback.index:
+        raise MarketDataError(f"{symbol} 两个行情源均缺少 {completed} 完整日线")
+    fallback.attrs["provider"] = YahooChartProvider.name
+    fallback.attrs["source_url"] = f"https://finance.yahoo.com/quote/{symbol}/history/"
+    return fallback
+
+
 def refresh() -> dict:
     completed = last_completed_us_session()
     root = _research_output()
     active, cutoff, _ = _active_data()
     if active and cutoff == completed.isoformat():
-        manifest = json.loads((active / "manifest.json").read_text(encoding="utf-8"))
-        if manifest.get("provider") == PublicHistoryProvider.name:
-            return manifest
+        return json.loads((active / "manifest.json").read_text(encoding="utf-8"))
     output_root = root / "forward_data"
     config = json.loads(
         (root.parents[1] / "research/configs/no_yinn_paper_v1.json").read_text(encoding="utf-8")
@@ -47,13 +60,12 @@ def refresh() -> dict:
     fetched = {}
     with ThreadPoolExecutor(max_workers=3) as pool:
         futures = {
-            pool.submit(PublicHistoryProvider().history, s, OVERLAP_START, completed): s
+            pool.submit(_history_through, s, completed): s
             for s in symbols
         }
         for future in as_completed(futures):
             symbol = futures[future]
             fetched[symbol] = future.result()
-            fetched[symbol].index = pd.to_datetime(fetched[symbol].index)
     directory = output_root / f"{completed.isoformat()}-public"
     if directory.exists():
         raise ValueError("该日期的公共源快照已存在；请检查现有清单，不覆盖已发布数据")
@@ -159,7 +171,8 @@ def refresh() -> dict:
             "market_last_completed_session": completed.isoformat(),
             "captured_at_utc": datetime.now(timezone.utc).isoformat(),
             "retrospective_backfill": True,
-            "provider": PublicHistoryProvider.name,
+            "provider": "+".join(sorted({frame.attrs.get("provider", PublicHistoryProvider.name) for frame in fetched.values()})),
+            "source_by_symbol": {symbol: frame.attrs.get("provider", PublicHistoryProvider.name) for symbol, frame in fetched.items()},
             "previous_snapshot": cutoff,
             "symbols": list(symbols),
             "audit": audit,
