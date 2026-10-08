@@ -1,0 +1,172 @@
+{
+  "strategy_version": "no_yinn_paper_v1",
+  "frozen_cutoff": "2026-09-18",
+  "latest_completed_session": "2026-10-07",
+  "market_last_completed_session": "2026-10-07",
+  "captured_at_utc": "2026-10-08T02:57:43.795828+00:00",
+  "retrospective_backfill": true,
+  "provider": "yahoo",
+  "source_by_symbol": {
+    "TQQQ": "yahoo",
+    "SOXL": "yahoo",
+    "FAS": "yahoo",
+    "CONL": "yahoo",
+    "CURE": "yahoo",
+    "GDXU": "yahoo",
+    "LABU": "yahoo",
+    "NAIL": "yahoo",
+    "DFEN": "yahoo",
+    "TECL": "yahoo",
+    "UPRO": "yahoo",
+    "EDC": "yahoo",
+    "UGL": "yahoo",
+    "QLD": "yahoo",
+    "YINN": "yahoo"
+  },
+  "previous_snapshot": "2026-10-06",
+  "symbols": [
+    "TQQQ",
+    "SOXL",
+    "FAS",
+    "GDXU",
+    "CONL",
+    "CURE",
+    "LABU",
+    "NAIL",
+    "DFEN",
+    "TECL",
+    "UPRO",
+    "EDC",
+    "UGL",
+    "YINN",
+    "QLD"
+  ],
+  "audit": {
+    "TQQQ": {
+      "adjustment_factor": 0.9980699818201433,
+      "overlap_price_relative_error": 6.126005903595022e-05,
+      "overlap_score_absolute_error": 1.032497129216381e-05,
+      "continuity_factor": 0.9999999808306672,
+      "preserved_through": "2026-10-06",
+      "new_rows": 1,
+      "source_url": "https://finance.yahoo.com/quote/TQQQ/history/"
+    },
+    "SOXL": {
+      "adjustment_factor": 0.9993447777122573,
+      "overlap_price_relative_error": 3.3661284489117094e-05,
+      "overlap_score_absolute_error": 3.845581883155091e-06,
+      "continuity_factor": 1.0000000132916198,
+      "preserved_through": "2026-10-06",
+      "new_rows": 1,
+      "source_url": "https://finance.yahoo.com/quote/SOXL/history/"
+    },
+    "FAS": {
+      "adjustment_factor": 0.99386917262887,
+      "overlap_price_relative_error": 3.4484198479400874e-05,
+      "overlap_score_absolute_error": 7.621363216969712e-06,
+      "continuity_factor": 0.9999999348745834,
+      "preserved_through": "2026-10-06",
+      "new_rows": 1,
+      "source_url": "https://finance.yahoo.com/quote/FAS/history/"
+    },
+    "GDXU": {
+      "adjustment_factor": 1.0,
+      "overlap_price_relative_error": 3.158872297071014e-08,
+      "overlap_score_absolute_error": 1.9575778154035106e-06,
+      "continuity_factor": 0.9999999856590331,
+      "preserved_through": "2026-10-06",
+      "new_rows": 1,
+      "source_url": "https://finance.yahoo.com/quote/GDXU/history/"
+    },
+    "CONL": {
+      "adjustment_factor": 1.0,
+      "overlap_price_relative_error": 4.880464898882053e-08,
+      "overlap_score_absolute_error": 5.748298089969239e-06,
+      "continuity_factor": 0.9999999774760595,
+      "preserved_through": "2026-10-06",
+      "new_rows": 1,
+      "source_url": "https://finance.yahoo.com/quote/CONL/history/"
+    },
+    "CURE": {
+      "adjustment_factor": 0.9975983606136836,
+      "overlap_price_relative_error": 7.257045853137356e-08,
+      "overlap_score_absolute_error": 0.0008602827640231681,
+      "continuity_factor": 0.9999999939809584,
+      "preserved_through": "2026-10-06",
+      "new_rows": 1,
+      "source_url": "https://finance.yahoo.com/quote/CURE/history/"
+    },
+    "LABU": {
+      "adjustment_factor": 1.0,
+      "overlap_price_relative_error": 4.253411267640672e-08,
+      "overlap_score_absolute_error": 3.986516592391354e-06,
+      "continuity_factor": 1.0000000180489752,
+      "preserved_through": "2026-10-06",
+      "new_rows": 1,
+      "source_url": "https://finance.yahoo.com/quote/LABU/history/"
+    },
+    "NAIL": {
+      "adjustment_factor": 0.9960824248648736,
+      "overlap_price_relative_error": 3.059109365821655e-08,
+      "overlap_score_absolute_error": 3.61254300784708e-06,
+      "continuity_factor": 1.000000013865492,
+      "preserved_through": "2026-10-06",
+      "new_rows": 1,
+      "source_url": "https://finance.yahoo.com/quote/NAIL/history/"
+    },
+    "DFEN": {
+      "adjustment_factor": 0.9997773735990001,
+      "overlap_price_relative_error": 6.99062483455748e-08,
+      "overlap_score_absolute_error": 2.791310080851872e-06,
+      "continuity_factor": 1.0000000418751074,
+      "preserved_through": "2026-10-06",
+      "new_rows": 1,
+      "source_url": "https://finance.yahoo.com/quote/DFEN/history/"
+    },
+    "TECL": {
+      "adjustment_factor": 0.9990906086973725,
+      "overlap_price_relative_error": 2.4118212427204355e-08,
+      "overlap_score_absolute_error": 9.560645776574006e-05,
+      "continuity_factor": 1.0000000239918074,
+      "preserved_through": "2026-10-06",
+      "new_rows": 1,
+      "source_url": "https://finance.yahoo.com/quote/TECL/history/"
+    },
+    "UPRO": {
+      "adjustment_factor": 0.9982468503990933,
+      "overlap_price_relative_error": 6.705532862305574e-08,
+      "overlap_score_absolute_error": 1.4630344971067188e-05,
+      "continuity_factor": 0.9999999565355052,
+      "preserved_through": "2026-10-06",
+      "new_rows": 1,
+      "source_url": "https://finance.yahoo.com/quote/UPRO/history/"
+    },
+    "EDC": {
+      "adjustment_factor": 0.9973490807716753,
+      "overlap_price_relative_error": 6.176466549101534e-05,
+      "overlap_score_absolute_error": 0.0191308929671985,
+      "continuity_factor": 1.000061713947063,
+      "preserved_through": "2026-10-06",
+      "new_rows": 1,
+      "source_url": "https://finance.yahoo.com/quote/EDC/history/"
+    },
+    "UGL": {
+      "adjustment_factor": 1.0,
+      "overlap_price_relative_error": 6.429947330133245e-08,
+      "overlap_score_absolute_error": 6.752931163589437e-06,
+      "continuity_factor": 0.9999999986571372,
+      "preserved_through": "2026-10-06",
+      "new_rows": 1,
+      "source_url": "https://finance.yahoo.com/quote/UGL/history/"
+    },
+    "YINN": {
+      "adjustment_factor": 0.9798842095134132,
+      "overlap_price_relative_error": 8.215812901379849e-05,
+      "overlap_score_absolute_error": 0.006396697546001917,
+      "continuity_factor": 0.9999999471977495,
+      "preserved_through": "2026-10-06",
+      "new_rows": 1,
+      "source_url": "https://finance.yahoo.com/quote/YINN/history/"
+    }
+  }
+}
